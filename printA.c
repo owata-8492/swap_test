@@ -11,13 +11,16 @@ int main(){
     fprintf(stderr,"error! fopen failed\n");
   }
   for(i=0;i<100;i++){
-    fprintf(fp,"a");
+    fprintf(fp,"A");
   }
+  printf("first printA finished\n");
   
   sleep(3);
 
   for(i=0;i<100;i++){
-    fprintf(fp,"a");
+    fprintf(fp,"A");
   }
+  printf("second printA finished\n");
+
   return 0;
 }
