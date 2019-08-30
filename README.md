@@ -2,7 +2,7 @@
 swap_ioシステムコールのテスト用プログラム
  + printA.c fpへ'A'を100回出力．3秒待ってfpへ'A'を100回出力．出力先はout/out1.txt
  + printB.c fpへ'B'を100回出力．3秒待ってfpへ'B'を100回出力．出力先はout/out2.txt
- + swapper.c forkして子プロセス1でprintAを実行．親プロセスにて再びforkし子プロセスで2printBを実行．1秒待ってswap_ioシステムコールを実行
+ + swapper.c forkして子プロセス1でprintAを実行．親プロセスにて再びforkし子プロセス2でprintBを実行．1秒待ってswap_ioシステムコールを実行
 
 　swapper.cの実行ファイル実行後に出力を確認し，out1.txtが"AAA...BBB..."，out2.txtが"BBB...AAA..."なら成功
  
