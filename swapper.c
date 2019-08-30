@@ -8,9 +8,7 @@
 #define SWAP_IO 309
 
 int main(){
-
-  FILE *fp_A, *fp_B;
-  pid_t tmpid, pid_A, pid_B;
+  pid_t tmpid = 0, pid_A = 0, pid_B = 0;
   int status = 0;
   int exec_result;
 
@@ -21,11 +19,10 @@ int main(){
   }
   
   if(tmpid == 0){// child process : printA
-    pid_A = tmpid;
-    exec_result = execlp("/home/sato-h/funcs_test/printA","/home/sato-h/funcs_test/printA",NULL);
+    exec_result = execl("/home/sato-h/funcs_test/printA","/home/sato-h/funcs_test/printA",NULL);
     if(exec_result == -1){printf("exec error: %d\n",errno); exit(1);}
   }else{
-    pid_B = tmpid;
+    pid_A = tmpid;
     tmpid = fork();
 
     if(tmpid < 0){
@@ -33,25 +30,21 @@ int main(){
     }
 
     if(tmpid == 0){// child process : printB
-      exec_result = execlp("/home/sato-h/funcs_test/printB","/home/sato-h/funcs_test/printB",NULL);
+      exec_result = execl("/home/sato-h/funcs_test/printB","/home/sato-h/funcs_test/printB",NULL);
       if(exec_result == -1){printf("exec error: %d\n",errno); exit(1);}
     }else{
-      sleep(1);
-      fp_A = fopen("out/out1.txt","w");
-      if(fp_A == NULL){fprintf(stderr,"error! fopen failed\n"); exit(1);}
-      
-      fp_B = fopen("out/out2.txt","w");
-      if(fp_B == NULL){fprintf(stderr,"error! fopen failed\n"); exit(1);}
-      
+      pid_B = tmpid;
+
       sleep(1);
 
+      printf("pid_A:%d\n",pid_A);
+      printf("pid_B:%d\n",pid_B);
+
       exec_result = syscall(SWAP_IO, pid_A, -1, pid_B, -1);
+
       printf("swap result: %d\n",exec_result);
       
       wait(&status);
-      
-      fclose(fp_A);
-      fclose(fp_B);
     }
   }
   return 0;
