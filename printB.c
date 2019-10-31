@@ -1,26 +1,35 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 int main(){
-  FILE *fp;
+  int fd;
   int i;
   
-  fp = fopen("out/out2.txt","w");
+  fd = open("out/out2.txt",O_WRONLY);
   
-  if(fp == NULL){
-    fprintf(stderr,"error! fopen failed\n");
+  if(fd == -1){
+    fprintf(stderr,"error! open failed\n");
   }
+
   for(i=0;i<100;i++){
-    fprintf(fp,"B");
+    write(fd,"B",1);
   }
+
+  write(fd,"\n",1);
+
   printf("first printB finished\n");
   
   sleep(3);
 
   for(i=0;i<100;i++){
-    fprintf(fp,"B");
+    write(fd,"B",1);
   }
+
   printf("second printB finished\n");
 
+  close(fd);
   return 0;
 }

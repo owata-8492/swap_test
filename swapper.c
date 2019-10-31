@@ -8,7 +8,7 @@
 #define SWAP_IO 309
 
 int main(){
-  pid_t tmpid = 0, pid_A = 0, pid_B = 0;
+  pid_t tmpid, pid_A, pid_B;
   int status = 0;
   int exec_result;
 
@@ -42,9 +42,12 @@ int main(){
 
       exec_result = syscall(SWAP_IO, pid_A, -1, pid_B, -1);
 
+      sleep(1);
+
+      waitpid(pid_A, &status, 0);
+      waitpid(pid_B, &status, 0);
+
       printf("swap result: %d\n",exec_result);
-      
-      wait(&status);
     }
   }
   return 0;
